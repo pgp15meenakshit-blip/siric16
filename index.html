@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIRIC 16 | Final Battle</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: radial-gradient(circle, #2d0b4d 0%, #1a052e 100%); 
+            color: #ffffff;
+            margin: 0;
+            overflow: hidden;
+        }
+        .card {
+            background: rgba(45, 11, 77, 0.85);
+            padding: 3.5rem;
+            border-radius: 40px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.6), inset 0 0 30px rgba(212, 175, 55, 0.1);
+            text-align: center;
+            max-width: 550px;
+            width: 90%;
+            border: 2px solid #d4af37;
+            backdrop-filter: blur(12px);
+        }
+        h1 { 
+            font-size: 2.4rem; 
+            margin-bottom: 0.5rem; 
+            background: linear-gradient(135deg, #f9f295 0%, #d4af37 45%, #b29436 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            font-weight: 900;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        .subtitle { color: #b29436; margin-bottom: 2rem; font-size: 1rem; letter-spacing: 5px; text-transform: uppercase; font-weight: bold;}
+        input {
+            width: 85%;
+            padding: 18px;
+            border: 2px solid #b29436;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: #f9f295;
+            outline: none;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        input:focus { border-color: #f9f295; background: rgba(255, 255, 255, 0.1); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .check-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #b29436 100%);
+            color: #1a052e;
+            padding: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 900;
+            width: 93%;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+        .check-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.5); }
+        #result {
+            margin-top: 35px;
+            min-height: 6em;
+            line-height: 1.7;
+        }
+        .success-title { color: #f9f295; font-size: 1.4rem; font-weight: bold; margin-bottom: 8px; }
+        .motivational-text { color: #b29436; font-style: italic; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Did you make it to SIRIC' 16?</h1>
+    <div class="subtitle">Final Battle</div>
+    <input type="text" id="nameInput" placeholder="Enter your name..." onkeyup="handleKey(event)">
+    <button class="check-btn" onclick="verifyMember()">Check Eligibility</button>
+    <div id="result"></div>
+</div>
+
+<script>
+    const siricMembers = [
+        "Aadya Agarwal", "Ashutosh Sharma", "Aswinkumar Nattuvally",
+        "Dhanush Pinninti", "Dhawal Jain", "Kushagra Kumar",
+        "Prerana Priyadarshini", "Raghavendar Srikkanth", "Rudraksh Pratap Singh",
+        "Rudransh Chaurasia", "Sify Singh", "Sparsh Yadav",
+        "Srishti Jain", "Sudeekshitha G"
+    ];
+
+    function handleKey(e) { if (e.key === 'Enter') verifyMember(); }
+
+    function verifyMember() {
+        const userInput = document.getElementById('nameInput').value.trim().toLowerCase();
+        const res = document.getElementById('result');
+        if (!userInput) { res.innerHTML = ""; return; }
+
+        const matchedMember = userInput.length >= 3 
+            ? siricMembers.find(name => name.toLowerCase().includes(userInput))
+            : null;
+
+        if (matchedMember) {
+            res.innerHTML = `
+                <div class="success-title">Welcome to SIRIC'16, ${matchedMember}!</div>
+                <div style="color: #f9f295;">Welcome to SIRIC'16, you have done an amazing job! Your dedication has truly paid off. 🏆</div>
+            `;
+            triggerRichCelebration();
+        } else {
+            res.innerHTML = `
+                <div class="motivational-text">
+                    "We deeply appreciate your efforts as JIRIC, Thank you for all the efforts!"
+                </div>
+            `;
+        }
+    }
+
+    function triggerRichCelebration() {
+        const duration = 4 * 1000;
+        const end = Date.now() + duration;
+        const goldColors = ['#d4af37', '#f9f295', '#b29436', '#ffffff'];
+
+        (function frame() {
+            confetti({
+                particleCount: 7,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0, y: 0.65 },
+                colors: goldColors
+            });
+            confetti({
+                particleCount: 7,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1, y: 0.65 },
+                colors: goldColors
+            });
+            if (Date.now() < end) { requestAnimationFrame(frame); }
+        }());
+
+        confetti({
+            particleCount: 250,
+            spread: 100,
+            origin: { y: 0.6 },
+            colors: goldColors
+        });
+    }
+</script>
+
+</body>
+</html>
